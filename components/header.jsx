@@ -1,38 +1,36 @@
 "use client";
 
 import React from "react";
-import {
-  SignedIn,
-  SignedOut,
-  SignInButton,
-  SignUpButton,
-  UserButton,
-} from "@clerk/nextjs";
+import { SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
+import { Unauthenticated, Authenticated } from "convex/react";
+import { useStoreUser } from "@/hooks/use-store-user";
 
-export function Header() {
+const Header = () => {
+  const { isLoading, isAuthenticated } = useStoreUser();
+
   return (
-    <header className="w-full px-6 py-4 border-b border-white/10 bg-slate-900 text-white flex items-center justify-between">
-      <div className="font-semibold">creatr</div>
-
-      <div className="flex items-center gap-3">
-        <SignedOut>
-          <SignInButton mode="modal">
-            <button className="px-4 py-2 rounded-md bg-white/10 hover:bg-white/15">
-              Sign in
+    <header className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-3xl px-4">
+      <div className="backdrop-blur-md bg-white/10 border border-white/20 rounded-full px-4 sm:px-6 md:px-8 py-3 flex items-center justify-end gap-2">
+        <Unauthenticated>
+          <SignInButton>
+            <button className="bg-transparent text-white rounded-full font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 cursor-pointer border border-white/20">
+              Sign In
             </button>
           </SignInButton>
 
-          <SignUpButton mode="modal">
-            <button className="px-4 py-2 rounded-md bg-indigo-600 hover:bg-indigo-700">
-              Sign up
+          <SignUpButton>
+            <button className="bg-[#6c47ff] text-ceramic-white rounded-full font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 cursor-pointer">
+              Sign Up
             </button>
           </SignUpButton>
-        </SignedOut>
+        </Unauthenticated>
 
-        <SignedIn>
-          <UserButton afterSignOutUrl="/" />
-        </SignedIn>
+        <Authenticated>
+          <UserButton />
+        </Authenticated>
       </div>
     </header>
   );
-}
+};
+
+export default Header;

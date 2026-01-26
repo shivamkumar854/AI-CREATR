@@ -6,7 +6,8 @@ import "./globals.css";
 import { ConvexClientProvider } from "./ConvexClientProvider"; 
 import { ClerkProvider } from "@clerk/nextjs";
 import { shadesOfPurple } from "@clerk/themes";
-import { Header } from "@/components/header";
+import Header from "@/components/header";
+
   
 const inter = Inter({subset: ['latin']})
 
