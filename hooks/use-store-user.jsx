@@ -9,13 +9,11 @@ export function useStoreUser() {
   const { user } = useUser();
   // When this state is set we know the server
   // has stored the user.
-
   const [userId, setUserId] = useState(null);
   const storeUser = useMutation(api.users.store);
   // Call the `storeUser` mutation function to store
   // the current user in the `users` table and return the `Id` value.
   useEffect(() => {
-    
     // If the user is not logged in don't do anything
     if (!isAuthenticated) {
       return;

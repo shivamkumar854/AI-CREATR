@@ -1,48 +1,46 @@
-
-import { ThemeProvider } from "@/components/theme-provider"
-
-import {Inter} from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
-import { ConvexClientProvider } from "./ConvexClientProvider"; 
+import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "sonner";
+import Header from "@/components/header";
 import { ClerkProvider } from "@clerk/nextjs";
 import { shadesOfPurple } from "@clerk/themes";
-import Header from "@/components/header";
+import { ConvexClientProvider } from "@/components/convex-client-provider";
 
-  
-const inter = Inter({subset: ['latin']})
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "AI Content Platform",
-  description: "Content Creation powered by AI",
+  description: "",
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en"  suppressHydrationWarning>
-      <body
-        className={`${inter.className}`}
-      >
-         <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            enableSystem
-            disableTransitionOnChange
-          > 
-
-           <ClerkProvider
+    <html lang="en" suppressHydrationWarning>
+      <head>{/* <link rel="icon" href="/logo-text.png" sizes="any" /> */}</head>
+      <body className={`${inter.className}`}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <ClerkProvider
+            publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
             appearance={{
-     theme: shadesOfPurple,
-   }}>
-          <ConvexClientProvider>
-          {/* Header */ }
-          <Header />
-          <main className="bg-slate-900 min-h-screen text-white overflow-x-hidden">
-        {children}
-        </main>
-         </ConvexClientProvider>
-         </ClerkProvider>
+              baseTheme: shadesOfPurple,
+            }}
+          >
+            <ConvexClientProvider>
+              <Header />
+              <main className="bg-slate-900 min-h-screen text-white overflow-x-hidden">
+                <Toaster richColors />
+
+                {children}
+              </main>
+            </ConvexClientProvider>
+          </ClerkProvider>
         </ThemeProvider>
-       
       </body>
     </html>
   );

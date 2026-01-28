@@ -1,6 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  /* config options here */
+  images: {
+    domains: [
+      "images.unsplash.com",
+      "image.clerk.com",
+      "ik.imagekit.io",
+    ],
+  },
 };
 
 export default nextConfig;

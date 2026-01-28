@@ -6,7 +6,7 @@ export default defineSchema({
   users: defineTable({
     // Basic user info from Clerk
     name: v.string(),
-    email: v.optional(v.string()), // ✅ FIX
+    email: v.string(),
     tokenIdentifier: v.string(), // Clerk user ID for auth
     imageUrl: v.optional(v.string()), // Profile picture
     username: v.optional(v.string()), // Unique username for public profiles
