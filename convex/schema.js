@@ -2,46 +2,45 @@ import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
 export default defineSchema({
-  // Users table
+  // =========================
+  // USERS
+  // =========================
   users: defineTable({
-    // Basic user info from Clerk
     name: v.string(),
-    email: v.string(),
-    tokenIdentifier: v.string(), // Clerk user ID for auth
-    imageUrl: v.optional(v.string()), // Profile picture
-    username: v.optional(v.string()), // Unique username for public profiles
+    email: v.optional(v.string()), // ✅ optional (fixes your error)
+    tokenIdentifier: v.string(),
 
-    // Activity timestamps
+    imageUrl: v.optional(v.string()),
+    username: v.optional(v.string()),
+
     createdAt: v.number(),
     lastActiveAt: v.number(),
   })
-    .index("by_token", ["tokenIdentifier"]) // Primary auth lookup
-    .index("by_email", ["email"]) // Email lookups
-    .index("by_username", ["username"]) // Username lookup for public profiles
-    .searchIndex("search_name", { searchField: "name" }) // User search
+    .index("by_token", ["tokenIdentifier"])
+    .index("by_email", ["email"])
+    .index("by_username", ["username"])
+    .searchIndex("search_name", { searchField: "name" })
     .searchIndex("search_email", { searchField: "email" }),
 
-  // Posts/Articles - Main content
+  // =========================
+  // POSTS
+  // =========================
   posts: defineTable({
     title: v.string(),
-    content: v.string(), // Rich text content (JSON string or HTML)
+    content: v.string(),
     status: v.union(v.literal("draft"), v.literal("published")),
 
-    // Author relationship
     authorId: v.id("users"),
 
-    // Content metadata
     tags: v.array(v.string()),
-    category: v.optional(v.string()), // Single category
-    featuredImage: v.optional(v.string()), // ImageKit URL
+    category: v.optional(v.string()),
+    featuredImage: v.optional(v.string()),
 
-    // Timestamps
     createdAt: v.number(),
     updatedAt: v.number(),
     publishedAt: v.optional(v.number()),
-    scheduledFor: v.optional(v.number()), // For scheduled publishing
+    scheduledFor: v.optional(v.number()),
 
-    // Analytics
     viewCount: v.number(),
     likeCount: v.number(),
   })
@@ -51,12 +50,14 @@ export default defineSchema({
     .index("by_author_status", ["authorId", "status"])
     .searchIndex("search_content", { searchField: "title" }),
 
-  // Comments system
+  // =========================
+  // COMMENTS
+  // =========================
   comments: defineTable({
     postId: v.id("posts"),
-    authorId: v.optional(v.id("users")), // Optional for anonymous comments
-    authorName: v.string(), // For anonymous or display name
-    authorEmail: v.optional(v.string()), // For anonymous comments
+    authorId: v.optional(v.id("users")),
+    authorName: v.string(),
+    authorEmail: v.optional(v.string()),
 
     content: v.string(),
     status: v.union(
@@ -71,32 +72,39 @@ export default defineSchema({
     .index("by_post_status", ["postId", "status"])
     .index("by_author", ["authorId"]),
 
-  // Likes system
+  // =========================
+  // LIKES
+  // =========================
   likes: defineTable({
     postId: v.id("posts"),
-    userId: v.optional(v.id("users")), // Optional for anonymous likes
+    userId: v.optional(v.id("users")),
 
     createdAt: v.number(),
   })
     .index("by_post", ["postId"])
     .index("by_user", ["userId"])
-    .index("by_post_user", ["postId", "userId"]), // Prevent duplicate likes
+    .index("by_post_user", ["postId", "userId"]),
 
-  // Follow/Subscribe system (combines following and newsletter subscription)
+  // =========================
+  // FOLLOWS
+  // =========================
   follows: defineTable({
-    followerId: v.id("users"), // User doing the following
-    followingId: v.id("users"), // User being followed
+    followerId: v.id("users"),
+    followingId: v.id("users"),
 
     createdAt: v.number(),
   })
     .index("by_follower", ["followerId"])
     .index("by_following", ["followingId"])
-    .index("by_relationship", ["followerId", "followingId"]), // Prevent duplicates
+    .index("by_relationship", ["followerId", "followingId"]),
 
-  // Daily analytics tracking
+  // =========================
+  // DAILY STATS
+  // =========================
   dailyStats: defineTable({
     postId: v.id("posts"),
-    date: v.string(), // YYYY-MM-DD format for easy querying
+    date: v.string(),
+
     views: v.number(),
 
     createdAt: v.number(),
@@ -104,5 +112,5 @@ export default defineSchema({
   })
     .index("by_post", ["postId"])
     .index("by_date", ["date"])
-    .index("by_post_date", ["postId", "date"]), // Unique constraint
+    .index("by_post_date", ["postId", "date"]),
 });

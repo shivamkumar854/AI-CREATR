@@ -38,7 +38,7 @@ export default function Header() {
       {/* Center - Glass Navigation Container */}
       <div className="backdrop-blur-md bg-white/10 border border-white/20 rounded-full px-4 sm:px-6 md:px-8 py-3 flex items-center justify-between gap-2">
         {/* Logo */}
-        <Link href={isAuthenticated ? "/feed" : "/"} className="flex-shrink-0">
+        <Link href={isAuthenticated ? "/feed" : "/"} className="shrink-0">
           <Image
             src="/logo.png"
             alt="Creatr Logo"
@@ -67,7 +67,7 @@ export default function Header() {
         )}
 
         {/* Auth Actions */}
-        <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
           <Authenticated>
             {/* Show Dashboard link on feed page */}
             {path === "/feed" && (

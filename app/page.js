@@ -45,11 +45,11 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-black text-white overflow-hidden relative">
       {/* Animated gradient background */}
-      <div className="fixed inset-0 bg-gradient-to-br from-purple-900/20 via-blue-900/20 to-green-900/20 animate-pulse"></div>
+      <div className="fixed inset-0 bg-linear-to-br from-purple-900/20 via-blue-900/20 to-green-900/20 animate-pulse"></div>
 
       {/* Dynamic cursor effect */}
       <div
-        className="fixed w-96 h-96 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-full blur-3xl pointer-events-none z-0"
+        className="fixed w-96 h-96 bg-linear-to-r from-blue-500/20 to-purple-500/20 rounded-full blur-3xl pointer-events-none z-0"
         style={{
           left: mousePosition.x - 192,
           top: mousePosition.y - 192,
@@ -67,7 +67,7 @@ const Home = () => {
                 <span className="block font-light italic text-purple-300">
                   Publish.
                 </span>
-                <span className="block font-black bg-gradient-to-r from-blue-400 via-purple-400 to-green-400 bg-clip-text text-transparent">
+                <span className="block font-black bg-linear-to-r from-blue-400 via-purple-400 to-green-400 bg-clip-text text-transparent">
                   Grow.
                 </span>
               </h1>
@@ -154,7 +154,7 @@ const Home = () => {
       {/* Features Grid */}
       <section
         id="features"
-        className="relative mt-14 z-10 py-16 sm:py-24 px-4 sm:px-6 bg-gradient-to-r from-gray-900/50 to-purple-900/20"
+        className="relative mt-14 z-10 py-16 sm:py-24 px-4 sm:px-6 bg-linear-to-r from-gray-900/50 to-purple-900/20"
       >
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12 sm:mb-16 lg:mb-20">
@@ -175,7 +175,7 @@ const Home = () => {
               >
                 <CardContent className="p-6 sm:p-8">
                   <div
-                    className={`w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br ${feature.color} rounded-2xl flex items-center justify-center mb-4 sm:mb-6 group-hover:scale-110 transition-transform`}
+                    className={`w-12 h-12 sm:w-16 sm:h-16 bg-linear-to-br ${feature.color} rounded-2xl flex items-center justify-center mb-4 sm:mb-6 group-hover:scale-110 transition-transform`}
                   >
                     <feature.icon className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
                   </div>
@@ -219,7 +219,7 @@ const Home = () => {
                       <div
                         className={`w-12 h-12 rounded-xl flex items-center justify-center ${
                           activeTab === index
-                            ? "bg-gradient-to-br from-purple-500 to-blue-500"
+                            ? "bg-linear-to-br from-purple-500 to-blue-500"
                             : "bg-muted"
                         }`}
                       >
@@ -248,7 +248,7 @@ const Home = () => {
                   <div className="grid sm:grid-cols-2 gap-4">
                     {platformTabs[activeTab].features.map((feature, index) => (
                       <div key={index} className="flex items-center gap-3">
-                        <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0" />
+                        <CheckCircle className="w-5 h-5 text-green-400 shrink-0" />
                         <span className="text-gray-300">{feature}</span>
                       </div>
                     ))}
@@ -261,7 +261,7 @@ const Home = () => {
       </section>
 
       {/* Social Proof */}
-      <section className="relative z-10 py-16 sm:py-24 px-4 sm:px-6 bg-gradient-to-r from-gray-900/50 to-purple-900/20">
+      <section className="relative z-10 py-16 sm:py-24 px-4 sm:px-6 bg-linear-to-r from-gray-900/50 to-purple-900/20">
         <div className="max-w-7xl mx-auto text-center">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-12 sm:mb-16">
             <span className="gradient-text-primary">
@@ -272,7 +272,7 @@ const Home = () => {
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-6 lg:gap-8">
             {socialProofStats.map((stat, index) => (
               <div key={index} className="text-center">
-                <div className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-gradient-to-br from-purple-500 to-blue-500 rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-linear-to-br from-purple-500 to-blue-500 rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4">
                   <stat.icon className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-white" />
                 </div>
                 <div className="text-3xl sm:text-4xl lg:text-5xl font-black mb-2 gradient-text-accent">
@@ -347,7 +347,7 @@ const Home = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="relative z-10 py-16 sm:py-24 px-4 sm:px-6 bg-gradient-to-r from-gray-900/50 to-purple-900/20">
+      <section className="relative z-10 py-16 sm:py-24 px-4 sm:px-6 bg-linear-to-r from-gray-900/50 to-purple-900/20">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-black mb-6 sm:mb-8">
             <span className="gradient-text-primary">Ready to create?</span>
@@ -386,7 +386,7 @@ const Home = () => {
         <div className="max-w-7xl mx-auto text-center">
           <p className="text-muted-foreground">
             Made with ❤️ by{" "}
-            <span className="text-foreground font-semibold">RoadsideCoder</span>
+            <span className="text-foreground font-semibold">DevByShivam</span>
           </p>
         </div>
       </footer>
