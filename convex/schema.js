@@ -7,7 +7,7 @@ export default defineSchema({
   // =========================
   users: defineTable({
     name: v.string(),
-    email: v.optional(v.string()), // ✅ optional (fixes your error)
+    email: v.optional(v.string()), // ✅ MUST be optional
     tokenIdentifier: v.string(),
 
     imageUrl: v.optional(v.string()),
@@ -103,7 +103,7 @@ export default defineSchema({
   // =========================
   dailyStats: defineTable({
     postId: v.id("posts"),
-    date: v.string(),
+    date: v.string(), // YYYY-MM-DD
 
     views: v.number(),
 
