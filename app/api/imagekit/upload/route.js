@@ -1,10 +1,8 @@
 import { NextResponse } from "next/server";
-import ImageKit from "@imagekit/nodejs";
-import { auth } from "@clerk/nextjs/server";
+import ImageKit from "imagekit";
 
 export const runtime = "nodejs";
 
-// Initialize ImageKit (server-side only)
 const imagekit = new ImageKit({
   publicKey: process.env.NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY,
   privateKey: process.env.IMAGEKIT_PRIVATE_KEY,
@@ -13,19 +11,18 @@ const imagekit = new ImageKit({
 
 export async function POST(request) {
   try {
-    // 🔐 Clerk authentication
-    const { userId } = auth();
+    const formData = await request.formData();
+
+    const file = formData.get("file");
+    const fileName = formData.get("fileName");
+    const userId = formData.get("userId");
+
     if (!userId) {
       return NextResponse.json(
-        { success: false, error: "Unauthorized" },
+        { success: false, error: "Missing userId" },
         { status: 401 }
       );
     }
-
-    // Parse form data
-    const formData = await request.formData();
-    const file = formData.get("file");
-    const fileName = formData.get("fileName");
 
     if (!file) {
       return NextResponse.json(
@@ -34,23 +31,21 @@ export async function POST(request) {
       );
     }
 
-    // Convert file → Buffer
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    // Generate safe unique filename
     const safeName =
       fileName?.replace(/[^a-zA-Z0-9.-]/g, "_") || "upload";
+
     const uniqueFileName = `${userId}/${Date.now()}_${safeName}`;
 
-    // Upload to ImageKit
+    // ✅ THIS NOW WORKS
     const uploadResponse = await imagekit.upload({
       file: buffer,
       fileName: uniqueFileName,
       folder: "/blog_images",
     });
 
-    // ✅ Consistent response format
     return NextResponse.json({
       success: true,
       data: {
@@ -68,7 +63,7 @@ export async function POST(request) {
     return NextResponse.json(
       {
         success: false,
-        error: "Failed to upload image",
+        error: error.message || "Failed to upload image",
       },
       { status: 500 }
     );

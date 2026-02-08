@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useDropzone } from "react-dropzone";
+
 import {
   Dialog,
   DialogContent,
@@ -40,6 +41,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { buildTransformationUrl, uploadToImageKit } from "@/lib/imagekit";
+import { useUser } from "@clerk/nextjs";
 
 // Form validation schema
 const transformationSchema = z.object({
@@ -90,6 +92,7 @@ export default function ImageUploadModal({
   onImageSelect,
   title = "Upload & Transform Image",
 }) {
+  const { user } = useUser();
   const [uploadedImage, setUploadedImage] = useState(null);
   const [transformedImage, setTransformedImage] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -136,7 +139,7 @@ export default function ImageUploadModal({
 
     try {
       const fileName = `post-image-${Date.now()}-${file.name}`;
-      const result = await uploadToImageKit(file, fileName);
+      const result = await uploadToImageKit(file, fileName, user.id);
 
       if (result.success) {
         setUploadedImage(result.data);
