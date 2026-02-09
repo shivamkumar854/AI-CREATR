@@ -76,7 +76,7 @@ Start directly with the introduction paragraph.
 
 export async function improveContent(
   title,
-  content,
+  _content,
   improvementType = "enhance"
 ) {
   try {
@@ -86,63 +86,46 @@ export async function improveContent(
 
     const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
-    let prompt = "";
-    // console.log("current content:", title);
+    let task = "";
 
     switch (improvementType) {
       case "expand":
-        prompt = `
-Take this blog content and expand it with more details, examples, and insights:
-
-${title}
-
-Requirements:
-- Keep the existing structure and main points
-- Add more depth and detail to each section
-- Include practical examples and insights
-- Maintain the original tone and style
-- Return the improved content in the same HTML format
-`;
+        task = "Write a more detailed and in-depth blog post.";
         break;
-
       case "simplify":
-        prompt = `
-Take this blog content and make it more concise and easier to read:
-
-${title}
-
-Requirements:
-- Keep all main points but make them clearer
-- Remove unnecessary complexity
-- Use simpler language where possible
-- Maintain the HTML formatting
-- Keep the essential information
-`;
+        task = "Write a clear, concise, easy-to-read blog post.";
         break;
-
-      default: // enhance
-        prompt = `
-Improve this blog content by making it more engaging and well-structured:
-
-${title}
-
-Requirements:
-- Improve the flow and readability
-- Add engaging transitions between sections
-- Enhance with better examples or explanations
-- Maintain the original HTML structure
-- Keep the same length approximately
-- Make it more compelling to read
-`;
+      default:
+        task = "Write a high-quality, engaging, well-structured blog post.";
     }
+
+    const prompt = `
+You are a professional blog writer.
+
+Blog title:
+"${title}"
+
+Task:
+${task}
+
+Strict rules:
+- Generate blog content based ONLY on the title
+- Return HTML only
+- Do NOT explain anything
+- Do NOT include markdown, code blocks, or backticks
+- Do NOT include the title
+- Start directly with the introduction paragraph
+- Use <h2>, <h3>, <p>, <ul>, <li>, <strong>, <em>
+
+If you include anything other than HTML, the response is invalid.
+`;
 
     const result = await model.generateContent(prompt);
     const response = await result.response;
-    const improvedContent = response.text();
 
     return {
       success: true,
-      content: improvedContent.trim(),
+      content: response.text().trim(),
     };
   } catch (error) {
     console.error("Content improvement error:", error);
