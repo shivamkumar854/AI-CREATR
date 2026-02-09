@@ -75,24 +75,26 @@ Start directly with the introduction paragraph.
 }
 
 export async function improveContent(
-  currentContent,
+  title,
+  content,
   improvementType = "enhance"
 ) {
   try {
-    if (!currentContent || currentContent.trim().length === 0) {
-      throw new Error("Content is required for improvement");
+    if (!title || title.trim().length === 0) {
+      throw new Error("Title is required for improvement");
     }
 
     const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
     let prompt = "";
+    // console.log("current content:", title);
 
     switch (improvementType) {
       case "expand":
         prompt = `
 Take this blog content and expand it with more details, examples, and insights:
 
-${currentContent}
+${title}
 
 Requirements:
 - Keep the existing structure and main points
@@ -107,7 +109,7 @@ Requirements:
         prompt = `
 Take this blog content and make it more concise and easier to read:
 
-${currentContent}
+${title}
 
 Requirements:
 - Keep all main points but make them clearer
@@ -122,7 +124,7 @@ Requirements:
         prompt = `
 Improve this blog content by making it more engaging and well-structured:
 
-${currentContent}
+${title}
 
 Requirements:
 - Improve the flow and readability
